@@ -8,6 +8,7 @@ from lang_memgpt._utils import ensure_configurable, get_embeddings
 from lang_memgpt._settings import SETTINGS
 from qdrant_client import QdrantClient
 from qdrant_client.models import PointStruct
+import asyncio
 
 load_dotenv()
 
@@ -23,11 +24,11 @@ bot = commands.Bot(command_prefix='/', intents=intents)
 qdrant_client = QdrantClient(url=QDRANT_URL)
 
 # Create an in-memory collection for Qdrant
-qdrant_client.recreate_collection(
-    collection_name="messages",
-    vectors_config={"size": 768, "distance": "Cosine"}
-)
-
+if not qdrant_client.collection_exists(collection_name='messages'):
+  qdrant_client.create_collection(
+      collection_name="messages",
+      vectors_config={"size": 768, "distance": "Cosine"}
+  ) 
 bots = {}
 
 @bot.command(name='config')
@@ -89,7 +90,24 @@ async def push_to_qdrant(user_message: str, bot_response: str):
         ]
     )
 
-bot.run(TOKEN)
+async def init_bots():
+    """Initialize all bots using tokens from the .env file."""
+    bot_tokens = [
+        (os.getenv(f"DISCORD_BOT_TOKEN.{i}"), os.getenv(f"DISCORD_BOT_TOKEN.{i}.NAME"))
+        for i in range(1, 10)
+        if os.getenv(f"DISCORD_BOT_TOKEN.{i}")
+    ]
 
+    for i in range(1, len(bot_tokens)):
+        token, name = bot_tokens[i]
+        try:
+            asyncio.create_task(coro=bot.start(token))
+            print(f'bot: {name} started')
+        except Exception as e:
+            print(f"Error starting BOT with token {token}: {e}")
 
+    last_token, last_name = bot_tokens[-1]
+    await bot.start(last_token)
 
+# Initialize bots
+asyncio.run(init_bots())
