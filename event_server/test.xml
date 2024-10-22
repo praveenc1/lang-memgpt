@@ -1,0 +1,12 @@
+<discord 
+  guild=my cool discord server 
+  channel=general 
+  author=<Member 
+    id=619585432316936242 
+    name='flash777' 
+    global_name='flash777' 
+    bot=False 
+    nick=None 
+    guild=<Guild id=1296290059665932331 
+      name='my cool discord server' 
+      shard_id=0 chunked=False member_count=3>>>
