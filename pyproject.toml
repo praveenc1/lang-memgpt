@@ -7,14 +7,15 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = ">=3.9.0,<3.13"
-langgraph = "^0.1.0"
+langgraph = "^0.2.0"
 langchain-fireworks = "^0.1.3"
 # Feel free to swap out for postgres or your favorite database.
 langchain-pinecone = "^0.1.1"
 jsonpatch = "^1.33"
 dydantic = "^0.0.6"
 pytest-asyncio = "^0.23.7"
-trustcall = "^0.0.4"
+#trustcall = "^0.0.4"
+#trustcall = "0.0.22"
 langchain = "^0.2.6"
 langchain-openai = "^0.1.10"
 langchain-anthropic = "^0.1.19"
@@ -23,6 +24,9 @@ langgraph-sdk = "^0.1.23"
 langchain-community = "^0.2.6"
 tavily-python = "^0.3.3"
 tiktoken = "^0.7.0"
+ipykernel = "^6.29.5"
+discord = "^2.3.2"
+poetry = "^1.8.4"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.4.10"
